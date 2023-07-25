@@ -1,3 +1,9 @@
+#### Get model optimized for RKNN
+Exports model with optimization for RKNN, please refer here [README_rkopt_manual.md](./README_rkopt_manual.md)
+
+---
+<br>
+
 <div align="center"><img src="assets/logo.png" width="350"></div>
 <img src="assets/demo.png" >
 

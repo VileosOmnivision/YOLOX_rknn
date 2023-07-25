@@ -1,13 +1,29 @@
-# YOLOX - rkopt 仓库
+# YOLOX - RKNN optimize
+## Source
 
-- 基于 https://github.com/Megvii-BaseDetection/YOLOX 代码修改，设配 rknpu 设备的部署优化
-- 切换分支 git checkout {分支名}
-- 目前支持分支:
-  - v0.3.0.rkopt
-    - maxpool/ focus 优化，输出改为个branch分支的输出。以上优化代码使用插入宏实现，不影响原来的训练逻辑，这个优化兼容修改前的权重，故支持官方给的预训练权重。
-    
-    - 训练的相关内容请参考 README.md 说明
-    
-    - 导出模型时  python export.py --rknpu {rk_platform} 即可导出优化模型
-    
-      (rk_platform支持 rk1808, rv1109, rv1126, rk3399pro, rk3566, rk3568, rk3588, rv1103, rv1106)
+  Base on https://github.com/Megvii-BaseDetection/YOLOX (v0.3.0) with commit id as 419778480ab6ec0590e5d3831b3afb3b46ab2aa3
+
+
+
+## What different
+
+Inference result unchanged:
+
+- Optimize focus/SPPF block, getting better performance with same result
+- Change output node, remove post_process from the model. (post process is unfriendly in quantization)
+
+
+
+## How to use
+
+```
+python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth --rknpu {rk_platform}
+or
+python3 tools/export_torchscript.py --output-name yolox_s.pt -n yolox-s -c yolox_s.pth --rknpu {rk_platform}
+```
+
+- rk_platform support  rk1808, rv1109, rv1126, rk3399pro, rk3566, rk3562, rk3568, rk3588, rv1103, rv1106. (Actually the exported models are the same in spite of the exact platform )
+
+- Replace 'yolox_s.pth' with your model path
+- **NOTICE: Please call with --rknpu param, do not changing the default rknpu value in export.py.** 
+
