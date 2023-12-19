@@ -205,7 +205,7 @@ class YOLOXHead(nn.Module):
         else:
             self.hw = [x.shape[-2:] for x in outputs]
             # [batch, n_anchors_all, 85]
-            if os.getenv('RKNN_model_hack', '0') in ['npu_1', 'npu_2']:
+            if os.getenv('RKNN_model_hack', '0') in ['1']:
                 return outputs
 
             outputs = torch.cat(

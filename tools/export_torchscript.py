@@ -8,14 +8,8 @@ import sys
 from loguru import logger
 
 # activate rknn hack
-if len(sys.argv)>=3 and '--rknpu' in sys.argv:
-    _index = sys.argv.index('--rknpu')
-    if sys.argv[_index+1].upper() in ['RK1808', 'RV1109', 'RV1126','RK3399PRO']:
-        os.environ['RKNN_model_hack'] = 'npu_1'
-    elif sys.argv[_index+1].upper() in ['RK3566', 'RK3568', 'RK3588','RK3588S','RV1106','RV1103']:
-        os.environ['RKNN_model_hack'] = 'npu_2'
-    else:
-        assert False,"{} not recognized".format(sys.argv[_index+1])
+if '--rknpu' in sys.argv:
+    os.environ['RKNN_model_hack'] = '1'
 
 import torch
 
@@ -38,7 +32,7 @@ def make_parser():
     parser.add_argument("-expn", "--experiment-name", type=str, default=None)
     parser.add_argument("-n", "--name", type=str, default=None, help="model name")
     parser.add_argument("-c", "--ckpt", default=None, type=str, help="ckpt path")
-    parser.add_argument('--rknpu', default=None, help='RKNN npu platform')
+    parser.add_argument('--rknpu', action="store_true", help='RKNN npu platform')
     parser.add_argument(
         "opts",
         help="Modify config options using the command-line",
@@ -75,7 +69,7 @@ def main():
     model.load_state_dict(ckpt)
     model.head.decode_in_inference = False
 
-    if os.getenv('RKNN_model_hack', '0') in ['npu_1', 'npu_2']:
+    if os.getenv('RKNN_model_hack', '0') in ['1']:
         from yolox.models.network_blocks import Focus, Focus_conv
         for k,m in model.named_modules():
             if isinstance(m, Focus) and hasattr(m, 'sf'):

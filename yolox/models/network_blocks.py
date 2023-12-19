@@ -129,7 +129,7 @@ class SPPBottleneck(nn.Module):
         super().__init__()
         hidden_channels = in_channels // 2
         self.conv1 = BaseConv(in_channels, hidden_channels, 1, stride=1, act=activation)
-        if os.getenv('RKNN_model_hack', '0') in ['npu_1','npu_2']:
+        if os.getenv('RKNN_model_hack', '0') in ['1']:
             self.m = nn.ModuleList(
                 [
                     nn.Sequential(*[nn.MaxPool2d(3,1,1) for i in range(ks//2)])

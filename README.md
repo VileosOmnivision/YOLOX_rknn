@@ -1,6 +1,9 @@
 #### Get model optimized for RKNN
-Exports model with optimization for RKNN, please refer here [README_rkopt_manual.md](./README_rkopt_manual.md)
+Exports model with optimization for RKNN, please refer here [README_rkopt.md](./README_rkopt.md)
 
+导出适配 RKNPU 的检测模型, 请参考 [README_rkopt.md](./README_rkopt.md) 的说明
+
+---
 ---
 <br>
 
